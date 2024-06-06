@@ -1,40 +1,48 @@
+from flask import Flask, jsonify, request, Blueprint
+from flask_cors import CORS
 import pymysql
 from db_config import connect_db
-from flask import jsonify, request, Blueprint
+
+app = Flask(__name__)
+CORS(app)  
 
 cliente_bp = Blueprint("cliente", __name__)
 
 @cliente_bp.route("/cliente")
 def user():
     try:
-            conn = connect_db()
-            cur = conn.cursor(pymysql.cursors.DictCursor)
-            cur.execute("SELECT * FROM cliente")
-            rows = cur.fetchall()
-            conn.close()
-            resp = jsonify(rows)
-            resp.status_code=200
-            return resp
+        conn = connect_db()
+        cur = conn.cursor(pymysql.cursors.DictCursor)
+        cur.execute("SELECT * FROM cliente")
+        rows = cur.fetchall()
+        conn.close()
+        resp = jsonify(rows)
+        resp.status_code = 200
+        return resp
     except Exception as e:
         print(e)
-        return e
+        return str(e), 500
 
 @cliente_bp.route("/cliente/<id>")
 def getbyid_cliente(id):
     try:
-            conn = connect_db()
-            cur = conn.cursor(pymysql.cursors.DictCursor)
-            cur.execute("""SELECT * FROM cliente 
-                        WHERE idcliente = %s""",
-                        (id))
-            rows = cur.fetchone()
-            conn.close()
-            resp = jsonify(rows)
-            resp.status_code=200
-            return resp
+        conn = connect_db()
+        cur = conn.cursor(pymysql.cursors.DictCursor)
+        cur.execute("""SELECT * FROM cliente 
+                    WHERE idcliente = %s""",
+                    (id,))
+        row = cur.fetchone()
+        conn.close()
+        if row:
+            resp = jsonify(row)
+            resp.status_code = 200
+        else:
+            resp = jsonify({"message": "Cliente not found"})
+            resp.status_code = 404
+        return resp
     except Exception as e:
         print(e)
-        return e
+        return str(e), 500
 
 @cliente_bp.route("/cliente", methods=["POST"])
 def novo_cliente():
@@ -43,7 +51,7 @@ def novo_cliente():
         conn = connect_db()
         cursor = conn.cursor()
 
-        #pegar os dados do JSON
+        # pegar os dados do JSON
         nome = cliente["nome"]
         cpf = cliente["cpf"]
         logradouro = cliente["logradouro"]
@@ -53,7 +61,7 @@ def novo_cliente():
         telefone = cliente["telefone"]
         idcidade = cliente["idcidade"]
 
-        #insere no BD
+        # insere no BD
         cursor.execute("""
                         INSERT INTO cliente
                        (nome, cpf, logradouro, numero, bairro, cep, telefone, idcidade)
@@ -64,11 +72,10 @@ def novo_cliente():
         conn.commit()
         conn.close()
 
-        return jsonify({"message" : "inserido!!"})
+        return jsonify({"message": "inserido!!"}), 201
     except Exception as e:
         print(e)
-        return e
-
+        return str(e), 500
 
 @cliente_bp.route("/cliente/<id>", methods=["PUT"])
 def alterar_cliente(id):
@@ -77,7 +84,7 @@ def alterar_cliente(id):
         conn = connect_db()
         cursor = conn.cursor()
 
-        #pegar os dados do JSON
+        # pegar os dados do JSON
         nome = cliente["nome"]
         cpf = cliente["cpf"]
         logradouro = cliente["logradouro"]
@@ -87,24 +94,22 @@ def alterar_cliente(id):
         telefone = cliente["telefone"]
         idcidade = cliente["idcidade"]
 
-        #insere no BD
+        # atualiza no BD
         cursor.execute("""
                         UPDATE cliente
                        SET nome = %s, cpf = %s, 
-                       logradouro = %s, numero = %s, bairro = %s, cep = %s, idcidade = %s
+                       logradouro = %s, numero = %s, bairro = %s, cep = %s, telefone = %s, idcidade = %s
                        WHERE idcliente = %s
                        """, 
-                       (nome, cpf, logradouro, numero, bairro, cep, telefone, idcidade)
+                       (nome, cpf, logradouro, numero, bairro, cep, telefone, idcidade, id)
                        )
         conn.commit()
         conn.close()
 
-        return jsonify({"message" : "alterado!!"})
+        return jsonify({"message": "alterado!!"}), 200
     except Exception as e:
         print(e)
-        return e
-    
-
+        return str(e), 500
 
 @cliente_bp.route("/cliente/<id>", methods=["DELETE"])
 def excluir_cliente(id):
@@ -112,17 +117,22 @@ def excluir_cliente(id):
         conn = connect_db()
         cursor = conn.cursor()
 
-        #insere no BD
+        # exclui no BD
         cursor.execute("""
                         DELETE FROM cliente
                        WHERE idcliente = %s
                        """, 
-                       (id)
+                       (id,)
                        )
         conn.commit()
         conn.close()
 
-        return jsonify({"message" : "excluido!!"})
+        return jsonify({"message": "excluido!!"}), 200
     except Exception as e:
         print(e)
-        return e    
+        return str(e), 500
+
+app.register_blueprint(cliente_bp)
+
+if __name__ == "__main__":
+    app.run(debug=True)
