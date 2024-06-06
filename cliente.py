@@ -88,9 +88,9 @@ def alterar_cliente(id):
         nome = cliente["nome"]
         cpf = cliente["cpf"]
         logradouro = cliente["logradouro"]
-        numero = cliente["numero"]
-        bairro = cliente["bairro"]
-        cep = cliente["cep"]
+        numero  = cliente["numero"]
+        bairro  = cliente["bairro"]
+        cep     = cliente["cep"]
         telefone = cliente["telefone"]
         idcidade = cliente["idcidade"]
 

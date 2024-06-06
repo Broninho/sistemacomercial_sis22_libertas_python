@@ -51,6 +51,7 @@
                 <th>IdCliente</th>
                 <th>Nome</th>
                 <th>Cpf</th>
+                <th>Cidade</th>
                 <th>Logradouro</th>
                 <th>Numero</th>
                 <th>Bairro</th>
@@ -79,32 +80,48 @@ aria-hidden="true">
           </h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+
         <div class="modal-body">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Nome:</span>
                 <input type="text" class="form-control" 
                 id="txtnome" aria-label="Username" aria-describedby="basic-addon1">
             </div>
+
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Cpf:</span>
                 <input type="text" class="form-control" 
                 id="txtcpf" aria-label="Username" aria-describedby="basic-addon1">
             </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">Cidade:</span>
+              <select type="text" class="form-control" 
+              id="txtcidade" aria-label="Username" aria-describedby="basic-addon1">
+              <option value="1">São Paulo</option>
+              <option value="2">Campinas</option>
+              <option value="3">São Sebastião do Paraiso</option>
+              <option value="4">Jacuí</option>
+            </div>
+
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Logradouro:</span>
                 <input type="text" class="form-control" 
                 id="txtlogradouro" aria-label="Username" aria-describedby="basic-addon1">
             </div>
+
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">Numero:</span>
                 <input type="number" class="form-control" 
                 id="txtnumero" aria-label="Username" aria-describedby="basic-addon1">
             </div>
+
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1">Bairro:</span>
               <input type="text" class="form-control" 
               id="txtbairro" aria-label="Username" aria-describedby="basic-addon1">
             </div>
+
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Cep:</span>
             <input type="text" class="form-control" 
@@ -116,7 +133,6 @@ aria-hidden="true">
             <input type="text" class="form-control" 
             id="txttelefone" aria-label="Username" aria-describedby="basic-addon1">
         </div>
-
 
         </div>
         <div class="modal-footer">

@@ -15,6 +15,8 @@ function novo() {
     const txtbairro = document.getElementById("txtbairro");
     const txtcep = document.getElementById("txtcep");
     const txttelefone = document.getElementById("txttelefone");
+    const txtcidade = document.getElementById("txtcidade");
+
 
 
     //limpa os campo
@@ -25,6 +27,7 @@ function novo() {
     txtbairro.value = "";
     txtcep.value = "";
     txttelefone.value = "";
+    txtcidade.value = "";
 
     //abre a dialog
     modal.show();
@@ -44,6 +47,7 @@ function alterar(id) {
             const txtbairro = document.getElementById("txtbairro");
             const txtcep = document.getElementById("txtcep");
             const txttelefone = document.getElementById("txttelefone");
+            const txtcidade = document.getElementById("txttelefone");
 
 
             txtnome.value = dados.nome;
@@ -53,6 +57,7 @@ function alterar(id) {
             txtbairro.value = dados.bairro;
             txtcep.value = dados.cep;
             txttelefone.value = dados.telefone;
+            txtcidade.value = dados.idcidade;
 
             modal.show();
         });
@@ -78,6 +83,7 @@ function mostrar(dados) {
             + "<td>" + id + "</td>"
             + "<td>" + dados[i].nome + "</td>"
             + "<td>" + dados[i].cpf + "</td>"
+            + "<td>" + dados[i].idcidade + "</td>"
             + "<td>" + dados[i].logradouro + "</td>"
             + "<td>" + dados[i].numero + "</td>"
             + "<td>" + dados[i].bairro + "</td>"
@@ -122,6 +128,7 @@ async function salvar() {
     const txtcep = document.getElementById("txtcep");
     const txttelefone = document.getElementById("txttelefone");
     const lista = document.getElementById("lista");
+    const txtcidade = document.getElementById("txtcidade");
     lista.innerHTML = "<tr><td colspan=5>Carregando...</td></tr>";
 
     const txtpesquisa = document.getElementById("txtpesquisa");
@@ -134,6 +141,7 @@ async function salvar() {
         bairro: txtbairro.value,
         cep: txtcep.value,
         telefone: txttelefone.value,
+        idcidade: txtcidade.value,
 
     }
 
